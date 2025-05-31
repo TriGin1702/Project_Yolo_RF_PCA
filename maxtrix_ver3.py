@@ -47,8 +47,8 @@ IOU_THRESHOLD = 0.3  # ngưỡng IoU khi đối chiếu ground truth với dự 
 # Thư mục chứa ảnh, nhãn và thư mục để lưu ảnh dự đoán
 IMAGE_FOLDER = r"trash/test/images"
 LABEL_FOLDER = r"trash/test/labels"
-# IMAGE_FOLDER = r"/trash/test/images"
-# LABEL_FOLDER = r"/trash/test/labels"
+# IMAGE_FOLDER = r"/trash_new/test/images"
+# LABEL_FOLDER = r"/trash_new/test/labels"
 OUTPUT_FOLDER = r"pre/"
 
 # -------------------------------
@@ -60,7 +60,7 @@ BACKBONE_LAYERS = 7
 backbone = torch.nn.Sequential(*modules[:BACKBONE_LAYERS]).to(DEVICE).eval()
 
 # rf_model, lb = joblib.load(RF_MODEL_PATH)
-rf_model = joblib.load(RF_MODEL_PATH)
+rf_model,lb = joblib.load(RF_MODEL_PATH)
 print("Mô hình RF đã được load với tham số:", rf_model.get_params())
 
 # -------------------------------

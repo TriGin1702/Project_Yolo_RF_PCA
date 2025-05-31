@@ -217,8 +217,8 @@ def train_rf(X, y):
     print("Accuracy trung bình:", grid_search.best_score_)
     
     # Lưu mô hình RF
-    joblib.dump(grid_search.best_estimator_, r"random_forest_model3_ver4.pkl")
-    print("Mô hình RandomForest đã được lưu tại: random_forest_model3_ver4.pkl")
+    joblib.dump(grid_search.best_estimator_, r"random_forest_model2.pkl")
+    print("Mô hình RandomForest đã được lưu tại: random_forest_model2.pkl")
     
 if __name__ == '__main__':
     # Xây dựng dataset trực tiếp từ ảnh và nhãn (không cần ghi CSV)
