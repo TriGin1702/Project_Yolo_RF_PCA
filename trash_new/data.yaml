@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 6
+names: ["cardboard", "glass", "metal", "organic", "paper", "plastic"]
+
+roboflow:
+  workspace: garbage-classification-scqyu
+  project: trash-detection-ujrn0
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/garbage-classification-scqyu/trash-detection-ujrn0/dataset/1
