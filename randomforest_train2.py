@@ -7,7 +7,8 @@ import joblib
 from sklearn.preprocessing import LabelBinarizer
 
 # Đọc dữ liệu từ file CSV mới chứa các cột: width, height, aspect_ratio, avg_b, avg_g, avg_r, label, set
-df = pd.read_csv("combined_features.csv")
+# df = pd.read_csv("combined_features.csv")
+df = pd.read_csv("combined_features_garbage.csv")
 # df = pd.read_csv("shape_texture_features.csv")
 print("Các cột trong CSV:", df.columns.tolist())
 
@@ -54,5 +55,7 @@ print("Tham số tối ưu:", grid_search.best_params_)
 print("Accuracy trung bình:", grid_search.best_score_)
 
 # Lưu mô hình tốt nhất cùng đối tượng LabelBinarizer
-joblib.dump((grid_search.best_estimator_, lb), "random_forest_model.pkl")
-print("Mô hình RandomForest đã được lưu tại: random_forest_model.pkl")
+# joblib.dump((grid_search.best_estimator_, lb), "random_forest_model.pkl")
+# print("Mô hình RandomForest đã được lưu tại: random_forest_model.pkl")
+joblib.dump((grid_search.best_estimator_, lb), "random_forest_model_garbage.pkl")
+print("Mô hình RandomForest đã được lưu tại: random_forest_model_garbage.pkl")

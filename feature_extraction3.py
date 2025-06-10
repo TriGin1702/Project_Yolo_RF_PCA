@@ -7,7 +7,8 @@ from ultralytics import YOLO
 
 # --- 1) Load YOLOv10 detection model as backbone extractor ---
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-yolo = YOLO(r"best_trash.pt")
+# yolo = YOLO(r"best_trash.pt")
+yolo = YOLO(r"best_garbage.pt")
 # Extract modules list and pick backbone layers
 modules = list(yolo.model.model)
 BACKBONE_LAYERS = 7  # adjust based on model depth
@@ -144,8 +145,11 @@ def process_dataset(image_dir, label_dir, names_map, output_csv):
     print(f"Saved features to {output_csv}")
 
 if __name__ == '__main__':
-    IMAGE_DIR  = r"trash/train/images"
-    LABEL_DIR  = r"trash/train/labels"
-    OUTPUT_CSV = r"combined_features.csv"
-    NAMES_MAP  = {0:'cardboard',1:'glass',2:'metal',3:'organic',4:'paper',5:'plastic'}
+    # IMAGE_DIR  = r"trash/train/images"
+    # LABEL_DIR  = r"trash/train/labels"
+    # OUTPUT_CSV = r"combined_features.csv"
+    IMAGE_DIR  = r"garbage/train/images"
+    LABEL_DIR  = r"garbage/train/labels"
+    OUTPUT_CSV = r"combined_features_garbage.csv"
+    NAMES_MAP = {0: 'Cardboard', 1: 'Garbage', 2: 'Glass', 3: 'Metal', 4: 'Paper', 5: 'Plastic', 6: 'Trash'}
     process_dataset(IMAGE_DIR, LABEL_DIR, NAMES_MAP, OUTPUT_CSV)

@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 7
+names: ["Cardboard", "Garbage", "Glass", "Metal", "Paper", "Plastic", "Trash"]
+
+roboflow:
+  workspace: student-utr07
+  project: garbage-classifier-oehkt
+  version: 27
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/student-utr07/garbage-classifier-oehkt/dataset/27

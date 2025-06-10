@@ -13,18 +13,19 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold
 # -------------------------------
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-YOLO_MODEL_PATH = r"best_trash.pt"
-
+# YOLO_MODEL_PATH = r"best_trash.pt"
+YOLO_MODEL_PATH = r"best_garbage.pt"
 # Mapping nhãn theo dự án của bạn
-NAMES_MAP = {0: 'cardboard', 1: 'glass', 2: 'metal', 3: 'organic', 4: 'paper', 5: 'plastic'}
-
+# NAMES_MAP = {0: 'cardboard', 1: 'glass', 2: 'metal', 3: 'organic', 4: 'paper', 5: 'plastic'}
+NAMES_MAP = {0: 'Cardboard', 1: 'Garbage', 2: 'Glass', 3: 'Metal', 4: 'Paper', 5: 'Plastic', 6: 'Trash'}
 # GLOBAL_CONF = 0.2
 # RF_SCALING = [0.7, 1.0, 1.3]
 # IOU_THRESHOLD = 0.3
 
-IMAGE_FOLDER = r"trash/train/images"
-LABEL_FOLDER = r"trash/train/labels"
-
+# IMAGE_FOLDER = r"trash/train/images"
+# LABEL_FOLDER = r"trash/train/labels"
+IMAGE_FOLDER = r"garbage/train/images"
+LABEL_FOLDER = r"garbage/train/labels"
 # -------------------------------
 # Load mô hình YOLO và lấy backbone (chẳng hạn 7 layer đầu)
 # -------------------------------
@@ -217,9 +218,10 @@ def train_rf(X, y):
     print("Accuracy trung bình:", grid_search.best_score_)
     
     # Lưu mô hình RF
-    joblib.dump(grid_search.best_estimator_, r"random_forest_model2.pkl")
-    print("Mô hình RandomForest đã được lưu tại: random_forest_model2.pkl")
-    
+    # joblib.dump(grid_search.best_estimator_, r"random_forest_model2.pkl")
+    # print("Mô hình RandomForest đã được lưu tại: random_forest_model2.pkl")
+    joblib.dump(grid_search.best_estimator_, r"random_forest_model2_garbage.pkl")
+    print("Mô hình RandomForest đã được lưu tại: random_forest_model2_garbage.pkl")
 if __name__ == '__main__':
     # Xây dựng dataset trực tiếp từ ảnh và nhãn (không cần ghi CSV)
     X, y = build_dataset(IMAGE_FOLDER, LABEL_FOLDER, NAMES_MAP)

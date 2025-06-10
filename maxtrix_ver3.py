@@ -14,43 +14,66 @@ from sklearn.metrics import confusion_matrix, classification_report, precision_r
 # -------------------------------
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-YOLO_MODEL_PATH = r"best_trash.pt"
-RF_MODEL_PATH   = r"random_forest_model.pkl"
-
-PCA_SAVE_DIR = r"pca"
+# YOLO_MODEL_PATH = r"best_trash.pt"
+# RF_MODEL_PATH   = r"random_forest_model.pkl"
+# PCA_SAVE_DIR = r"pca"
+YOLO_MODEL_PATH = r"best_garbage.pt"
+RF_MODEL_PATH   = r"random_forest_model2_garbage.pkl"
+PCA_SAVE_DIR = r"pca_garbage"
 # Mapping nhãn – theo huấn luyện RF của bạn
-NAMES_MAP = {0: 'cardboard', 1: 'glass', 2: 'metal', 3: 'organic', 4: 'paper', 5: 'plastic'}
-CLASS_NAMES = ["cardboard", "glass", "metal", "organic", "paper", "plastic"]
+# NAMES_MAP = {0: 'cardboard', 1: 'glass', 2: 'metal', 3: 'organic', 4: 'paper', 5: 'plastic'}
+# CLASS_NAMES = ["cardboard", "glass", "metal", "organic", "paper", "plastic"]
+NAMES_MAP = {0: 'Cardboard', 1: 'Garbage', 2: 'Glass', 3: 'Metal', 4: 'Paper', 5: 'Plastic', 6: 'Trash'}
+CLASS_NAMES = ["Cardboard", "Garbage", "Glass", "Metal", "Paper", "Plastic", "Trash"]
 # Ngưỡng confidence toàn cục của YOLO
 GLOBAL_CONF = 0.2
 
+# # Ngưỡng riêng cho một số lớp (theo huấn luyện)
+# CLASS_CONFS = {
+#     # 0: 0.2,  # cardboard
+#     1: 0.2, # glass
+#     2: 0.2, # metal
+#     # 4: 0.2,
+#     # 5: 0.2   # plastic
+# }
+
+# RF_WINDOW   = {
+#     # 0: 0.4,
+#     1: 0.35,
+#     2: 0.35,
+#     # 4: 0.4,
+#     # 5: 0.2,
+# }
 # Ngưỡng riêng cho một số lớp (theo huấn luyện)
 CLASS_CONFS = {
     # 0: 0.2,  # cardboard
-    1: 0.2, # glass
-    2: 0.2, # metal
-    # 4: 0.2,
-    # 5: 0.2   # plastic
+    2: 0.2, # glass
+    3: 0.2, # metal
+    4: 0.2, # paper
+    5: 0.2,   # plastic
+    6: 0.2   # plastic
 }
 
 RF_WINDOW   = {
-    # 0: 0.4,
-    1: 0.35,
-    2: 0.35,
-    # 4: 0.4,
-    # 5: 0.2,
+    # 0: 0.1,
+    2: 0.3,
+    3: 0.3,
+    4: 0.3,
+    5: 0.15,
+    6: 0.15
 }
-
-RF_SCALING  = [0.7, 1.0, 1.3]
+RF_SCALING  = [0.8, 1.0, 1.2]
 IOU_THRESHOLD = 0.3  # ngưỡng IoU khi đối chiếu ground truth với dự đoán
 
 # Thư mục chứa ảnh, nhãn và thư mục để lưu ảnh dự đoán
-IMAGE_FOLDER = r"trash/test/images"
-LABEL_FOLDER = r"trash/test/labels"
+# IMAGE_FOLDER = r"trash/test/images"
+# LABEL_FOLDER = r"trash/test/labels"
 # IMAGE_FOLDER = r"/trash_new/test/images"
 # LABEL_FOLDER = r"/trash_new/test/labels"
-OUTPUT_FOLDER = r"pre/"
-
+# OUTPUT_FOLDER = r"pre/"
+IMAGE_FOLDER = r"garbage/test/images"
+LABEL_FOLDER = r"garbage/test/labels"
+OUTPUT_FOLDER = r"pre_garbage"
 # -------------------------------
 # Load mô hình YOLO và RF
 # -------------------------------
@@ -59,8 +82,8 @@ modules = list(yolo.model.model)
 BACKBONE_LAYERS = 7
 backbone = torch.nn.Sequential(*modules[:BACKBONE_LAYERS]).to(DEVICE).eval()
 
-# rf_model, lb = joblib.load(RF_MODEL_PATH)
-rf_model,lb = joblib.load(RF_MODEL_PATH)
+rf_model = joblib.load(RF_MODEL_PATH)
+# rf_model,lb = joblib.load(RF_MODEL_PATH)
 print("Mô hình RF đã được load với tham số:", rf_model.get_params())
 
 # -------------------------------
