@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 13
+names: ['battery', 'brick', 'carrots', 'china', 'cobbles', 'cups', 'full_potato', 'med_plate', 'metal', 'plastic', 'potato', 'small', 'white_radish']
+
+roboflow:
+  workspace: zooc
+  project: my_second_project
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/zooc/my_second_project/dataset/1

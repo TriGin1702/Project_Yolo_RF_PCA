@@ -13,19 +13,38 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold
 # -------------------------------
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# YOLO_MODEL_PATH = r"best_trash.pt"
-YOLO_MODEL_PATH = r"best_garbage.pt"
+YOLO_MODEL_PATH = r"best_trash.pt"
+# YOLO_MODEL_PATH = r"best_garbage.pt"
+# YOLO_MODEL_PATH = r"best_fruit.pt"
 # Mapping nhãn theo dự án của bạn
-# NAMES_MAP = {0: 'cardboard', 1: 'glass', 2: 'metal', 3: 'organic', 4: 'paper', 5: 'plastic'}
-NAMES_MAP = {0: 'Cardboard', 1: 'Garbage', 2: 'Glass', 3: 'Metal', 4: 'Paper', 5: 'Plastic', 6: 'Trash'}
-# GLOBAL_CONF = 0.2
+NAMES_MAP = {0: 'cardboard', 1: 'glass', 2: 'metal', 3: 'organic', 4: 'paper', 5: 'plastic'}
+# NAMES_MAP = {0: 'Cardboard', 1: 'Garbage', 2: 'Glass', 3: 'Metal', 4: 'Paper', 5: 'Plastic', 6: 'Trash'}
+# NAMES_MAP = {
+#     0: 'battery',
+#     1: 'brick',
+#     2: 'carrots',
+#     3: 'china',
+#     4: 'cobbles',
+#     5: 'cups',
+#     6: 'full_potato',
+#     7: 'med_plate',
+#     8: 'metal',
+#     9: 'plastic',
+#     10: 'potato',
+#     11: 'small',
+#     12: 'white_radish'
+# }
+
+# GLOBAL_CON = 0.2
 # RF_SCALING = [0.7, 1.0, 1.3]
 # IOU_THRESHOLD = 0.3
 
-# IMAGE_FOLDER = r"trash/train/images"
-# LABEL_FOLDER = r"trash/train/labels"
-IMAGE_FOLDER = r"garbage/train/images"
-LABEL_FOLDER = r"garbage/train/labels"
+IMAGE_FOLDER = r"trash/train/images"
+LABEL_FOLDER = r"trash/train/labels"
+# IMAGE_FOLDER = r"garbage/train/images"
+# LABEL_FOLDER = r"garbage/train/labels"
+# IMAGE_FOLDER = r"fruit/train/images"
+# LABEL_FOLDER = r"fruit/train/labels"
 # -------------------------------
 # Load mô hình YOLO và lấy backbone (chẳng hạn 7 layer đầu)
 # -------------------------------
@@ -204,13 +223,19 @@ def train_rf(X, y):
     # Sử dụng một GridSearch đơn giản
     n_samples, n_features = X.shape
     param_grid = {
-        'n_estimators': [int(n_samples/2), int(n_samples/1.5)],
+        'n_estimators': [int(n_samples/5)],
         'max_depth': [None],
         'max_samples': [0.8]
     }
+    # param_grid = {
+    #     'n_estimators': [1500],
+    #     'max_depth': [None],
+    #     'max_samples': [0.7]
+    # }
     
     rf = RandomForestClassifier(random_state=17, class_weight="balanced")
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=27)
+    # skf = StratifiedKFold(n_splits=4, shuffle=True, random_state=27)
     grid_search = GridSearchCV(rf, param_grid, cv=skf, scoring='accuracy', n_jobs=-1)
     grid_search.fit(X, y)
     
@@ -218,10 +243,8 @@ def train_rf(X, y):
     print("Accuracy trung bình:", grid_search.best_score_)
     
     # Lưu mô hình RF
-    # joblib.dump(grid_search.best_estimator_, r"random_forest_model2.pkl")
-    # print("Mô hình RandomForest đã được lưu tại: random_forest_model2.pkl")
-    joblib.dump(grid_search.best_estimator_, r"random_forest_model2_garbage.pkl")
-    print("Mô hình RandomForest đã được lưu tại: random_forest_model2_garbage.pkl")
+    joblib.dump(grid_search.best_estimator_, r"random_forest_model2_trash.pkl")
+    print("Mô hình RandomForest đã được lưu tại: random_forest_model2_trash.pkl")
 if __name__ == '__main__':
     # Xây dựng dataset trực tiếp từ ảnh và nhãn (không cần ghi CSV)
     X, y = build_dataset(IMAGE_FOLDER, LABEL_FOLDER, NAMES_MAP)

@@ -14,66 +14,167 @@ from sklearn.metrics import confusion_matrix, classification_report, precision_r
 # -------------------------------
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# YOLO_MODEL_PATH = r"best_trash.pt"
-# RF_MODEL_PATH   = r"random_forest_model.pkl"
-# PCA_SAVE_DIR = r"pca"
-YOLO_MODEL_PATH = r"best_garbage.pt"
-RF_MODEL_PATH   = r"random_forest_model2_garbage.pkl"
-PCA_SAVE_DIR = r"pca_garbage"
+YOLO_MODEL_PATH = r"best_trash.pt"
+RF_MODEL_PATH   = r"random_forest_model2_trash.pkl"
+PCA_SAVE_DIR = r"pca"
+# YOLO_MODEL_PATH = r"best_garbage.pt"
+# RF_MODEL_PATH   = r"random_forest_model2_garbage.garbage"
+# PCA_SAVE_DIR = r"pca_garbage"
+# YOLO_MODEL_PATH = r"best_fruit.pt"
+# RF_MODEL_PATH   = r"random_forest_model2_fruit.pkl"
+# PCA_SAVE_DIR = r"pca_fruit"
 # Mapping nhãn – theo huấn luyện RF của bạn
-# NAMES_MAP = {0: 'cardboard', 1: 'glass', 2: 'metal', 3: 'organic', 4: 'paper', 5: 'plastic'}
-# CLASS_NAMES = ["cardboard", "glass", "metal", "organic", "paper", "plastic"]
-NAMES_MAP = {0: 'Cardboard', 1: 'Garbage', 2: 'Glass', 3: 'Metal', 4: 'Paper', 5: 'Plastic', 6: 'Trash'}
-CLASS_NAMES = ["Cardboard", "Garbage", "Glass", "Metal", "Paper", "Plastic", "Trash"]
+NAMES_MAP = {0: 'cardboard', 1: 'glass', 2: 'metal', 3: 'organic', 4: 'paper', 5: 'plastic'}
+CLASS_NAMES = ["cardboard", "glass", "metal", "organic", "paper", "plastic"]
+# NAMES_MAP = {0: 'Cardboard', 1: 'Garbage', 2: 'Glass', 3: 'Metal', 4: 'Paper', 5: 'Plastic', 6: 'Trash'}
+# CLASS_NAMES = ["Cardboard", "Garbage", "Glass", "Metal", "Paper", "Plastic", "Trash"]
+# Mapping từ class index sang tên
+# NAMES_MAP = {
+#     0: 'battery',
+#     1: 'brick',
+#     2: 'carrots',
+#     3: 'china',
+#     4: 'cobbles',
+#     5: 'cups',
+#     6: 'full_potato',
+#     7: 'med_plate',
+#     8: 'metal',
+#     9: 'plastic',
+#     10: 'potato',
+#     11: 'small',
+#     12: 'white_radish'
+# }
+
+# # Danh sách tên các class (index tương ứng với NAMES_MAP)
+# CLASS_NAMES = [
+#     'battery',
+#     'brick',
+#     'carrots',
+#     'china',
+#     'cobbles',
+#     'cups',
+#     'full_potato',
+#     'med_plate',
+#     'metal',
+#     'plastic',
+#     'potato',
+#     'small',
+#     'white_radish'
+# ]
 # Ngưỡng confidence toàn cục của YOLO
 GLOBAL_CONF = 0.2
 
 # # Ngưỡng riêng cho một số lớp (theo huấn luyện)
+#trash1
+CLASS_CONFS = {
+    # 0: 0.33,  # cardboard
+    1: 0.2, # glass
+    2: 0.35, # metal
+    5: 0.29   # plastic
+}
+
+RF_WINDOW   = {
+    # 0: 0.2,
+    1: 0.5,
+    2: 0.02,
+    5: 0.06
+}
+#trash2
 # CLASS_CONFS = {
 #     # 0: 0.2,  # cardboard
 #     1: 0.2, # glass
 #     2: 0.2, # metal
+#     3: 0.29
 #     # 4: 0.2,
 #     # 5: 0.2   # plastic
 # }
 
 # RF_WINDOW   = {
 #     # 0: 0.4,
-#     1: 0.35,
-#     2: 0.35,
+#     1: 0.47,
+#     2: 0.4,
+#     3: 0.02
 #     # 4: 0.4,
 #     # 5: 0.2,
 # }
 # Ngưỡng riêng cho một số lớp (theo huấn luyện)
-CLASS_CONFS = {
-    # 0: 0.2,  # cardboard
-    2: 0.2, # glass
-    3: 0.2, # metal
-    4: 0.2, # paper
-    5: 0.2,   # plastic
-    6: 0.2   # plastic
-}
+#garbage
+# CLASS_CONFS = {
+#     # 0: 0.2,  # cardboard
+#     2: 0.2, # glass
+#     3: 0.2, # metal
+#     4: 0.2, # paper
+#     5: 0.2,   # plastic
+#     6: 0.2   # plastic
+# }
+# RF_WINDOW   = {
+#     # 0: 0.1,
+#     2: 0.3,
+#     3: 0.3,
+#     4: 0.3,
+#     5: 0.15,
+#     6: 0.15
+# }
+# CLASS_CONFS = {
+#     0: 0.65,  # cardboard
+#     1: 0.68, 
+#     2: 0.33 , # glass
+#     3: 0.21, # metal
+#     4: 0.21, # paper
+#     5: 0.2,   # plastic
+#     6: 0.23   # plastic
+# }
+# RF_WINDOW   = {
+#     0: 0.01,
+#     1: 0.01,
+#     2: 0.2,
+#     3: 0.14,
+#     4: 0.16,
+#     5: 0.4,
+#     6: 0.33
+# }
+#fruit
 
-RF_WINDOW   = {
-    # 0: 0.1,
-    2: 0.3,
-    3: 0.3,
-    4: 0.3,
-    5: 0.15,
-    6: 0.15
-}
+# CLASS_CONFS = {
+#     # 0: 0.27,
+#     1: 0.27,
+#     2: 0.22,
+#     3: 0.22,
+#     4: 0.22,
+#     7: 0.30,
+#     8: 0.20,
+#     9: 0.22,
+#     10: 0.25,
+#     12: 0.33
+# }
+
+# RF_WINDOW = {
+#     # 0: 0.35,
+#     1: 0.08,
+#     2: 0.08,
+#     3: 0.11,
+#     4: 0.29,
+#     7: 0.15,
+#     8: 0.06,
+#     9: 0.22,
+#     10: 0.23,
+#     12: 0.44
+# }
 RF_SCALING  = [0.8, 1.0, 1.2]
 IOU_THRESHOLD = 0.3  # ngưỡng IoU khi đối chiếu ground truth với dự đoán
 
 # Thư mục chứa ảnh, nhãn và thư mục để lưu ảnh dự đoán
-# IMAGE_FOLDER = r"trash/test/images"
-# LABEL_FOLDER = r"trash/test/labels"
-# IMAGE_FOLDER = r"/trash_new/test/images"
-# LABEL_FOLDER = r"/trash_new/test/labels"
-# OUTPUT_FOLDER = r"pre/"
-IMAGE_FOLDER = r"garbage/test/images"
-LABEL_FOLDER = r"garbage/test/labels"
-OUTPUT_FOLDER = r"pre_garbage"
+IMAGE_FOLDER = r"trash/test/images"
+LABEL_FOLDER = r"trash/test/labels"
+# IMAGE_FOLDER = r"trash_new/test/images"
+# LABEL_FOLDER = r"trash_new/test/labels"
+OUTPUT_FOLDER = r"pre/"
+# IMAGE_FOLDER = r"garbage/test/images"
+# LABEL_FOLDER = r"garbage/test/labels"
+# OUTPUT_FOLDER = r"pre_garbage"
+# IMAGE_FOLDER = r"fruit/test/images"
+# LABEL_FOLDER = r"fruit/test/labels"
+# OUTPUT_FOLDER = r"pre_fruit"
 # -------------------------------
 # Load mô hình YOLO và RF
 # -------------------------------
@@ -558,10 +659,12 @@ def evaluate_predictions():
         print("Không có ground truth hợp lệ, không thể tính toán Confusion Matrix và các chỉ số đánh giá.")
         return
 
-    print(f"\nTổng số ground truth được đánh giá: {len(y_true)}")
-    # Sửa lại đếm mẫu được cứu bởi PCA
-    print(f"- Mẫu từ YOLO-only / RF: {sum(1 for y in y_pred_rf if y != 'unknown')}")
-    print(f"- Mẫu được cứu bởi PCA: {sum(1 for i, y in enumerate(y_pred_rf) if y == 'unknown' and y_pred_combine[i] != 'unknown')}")
+    print(f"\nTotal number of ground‑truth samples evaluated: {len(y_true)}")
+    # Count samples handled by YOLO-only / RF
+    print(f"- Samples classified by YOLO-only / RF: {sum(1 for y in y_pred_rf if y != 'unknown')}")
+    # Count samples rescued by PCA (were unknown to RF but recognized after PCA)
+    print(f"- Samples rescued by PCA: {sum(1 for i, y in enumerate(y_pred_rf) if y == 'unknown' and y_pred_combine[i] != 'unknown')}")
+
     # for i, (rf_pred, combine_pred) in enumerate(zip(y_pred_rf, y_pred_combine)):
     #     print(f"Index {i}: YOLO+RF = {rf_pred}, YOLO+RF+PCA = {combine_pred}")
     print("\n--- YOLO-only Confusion Matrix ---")
@@ -579,6 +682,47 @@ def evaluate_predictions():
     print(cm_combine)
     print(classification_report(y_true, y_pred_combine, labels=class_names, zero_division=0))
     # print(f"Tổng ground truth: {total_gt}")
+    # YOLO‐only
+    # cm_yolo = confusion_matrix(y_true, y_pred_yolo, labels=class_names)
+    # plt.figure(figsize=(12,10))
+    # plt.imshow(cm_yolo, interpolation='nearest', cmap='Blues')
+    # plt.title('YOLO-only Confusion Matrix')
+    # plt.ylabel('True label')
+    # plt.xlabel('Predicted label')
+    # plt.xticks(range(len(class_names)), class_names, rotation=90)
+    # plt.yticks(range(len(class_names)), class_names)
+    # plt.colorbar()
+    # plt.tight_layout()
+    # plt.show()
+    # print(classification_report(y_true, y_pred_yolo, labels=class_names, zero_division=0))
+
+    # # YOLO+RF
+    # cm_rf = confusion_matrix(y_true, y_pred_rf, labels=class_names)
+    # plt.figure(figsize=(12,10))
+    # plt.imshow(cm_rf, interpolation='nearest', cmap='Greens')
+    # plt.title('YOLO+RF Confusion Matrix')
+    # plt.ylabel('True label')
+    # plt.xlabel('Predicted label')
+    # plt.xticks(range(len(class_names)), class_names, rotation=90)
+    # plt.yticks(range(len(class_names)), class_names)
+    # plt.colorbar()
+    # plt.tight_layout()
+    # plt.show()
+    # print(classification_report(y_true, y_pred_rf, labels=class_names, zero_division=0))
+
+    # # YOLO+RF+PCA
+    # cm_combine = confusion_matrix(y_true, y_pred_combine, labels=class_names)
+    # plt.figure(figsize=(12,10))
+    # plt.imshow(cm_combine, interpolation='nearest', cmap='Oranges')
+    # plt.title('YOLO+RF+PCA Confusion Matrix')
+    # plt.ylabel('True label')
+    # plt.xlabel('Predicted label')
+    # plt.xticks(range(len(class_names)), class_names, rotation=90)
+    # plt.yticks(range(len(class_names)), class_names)
+    # plt.colorbar()
+    # plt.tight_layout()
+    # plt.show()
+    # print(classification_report(y_true, y_pred_combine, labels=class_names, zero_division=0))
 
     print(f"Accuracy YOLO-only: {correct_yolo}/{len(y_true)} = {correct_yolo/len(y_true):.2%}")
     print(f"Accuracy YOLO+RF:   {correct_rf}/{len(y_true)} = {correct_rf/len(y_true):.2%}")
